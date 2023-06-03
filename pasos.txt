@@ -1,0 +1,266 @@
+Iniciamos por consola:
+
+ls
+cd Backend
+ls
+cd FastAPI
+ls
+pip instal
+history
+
+//////////////////////////////
+
+Creamos archivo main.py:
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+# Siempre que llamemos al servidor asimcronamente
+async def root():
+    return "Hello World"
+
+//////////////////////////////
+Para iniciar servidor y recarge automaticamente:
+
+uvicorn main:app --reload
+
+
+
+//////////////////////////////
+
+Vamos a navegador web:
+http://127.0.0.1:8000/
+
+Vemos hola mundo
+
+//////////////////////////////
+Añado ruta main.py:
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+# Siempre que llamemos al servidor asimcronamente
+async def root():
+    return "Hello World"
+
+@app.get("/url")
+# Siempre que llamemos al servidor asimcronamente
+async def url():
+    return {"url_curso":"https://mouredev.com/python3"}
+
+Para ver en navegador:
+http://127.0.0.1:8000/url
+
+VEO JSON:
+
+{
+"url_curso": "https://mouredev.com/python3"
+}
+{
+"url_curso": "https://mouredev.com/python3"
+}
+
+//////////////////////////////
+
+Los códigos de respuesta HTTP más comunes son los siguientes:
+
+    200 OK: Indica que la solicitud ha sido exitosa.
+    201 Created: Indica que la solicitud ha sido exitosa y ha resultado en la creación de un nuevo recurso.
+    204 No Content: Indica que la solicitud ha sido exitosa, pero no hay contenido para enviar en la respuesta.
+    400 Bad Request: Indica que la solicitud no se pudo entender o estaba mal formada.
+    401 Unauthorized: Indica que la solicitud requiere autenticación o el usuario no tiene los permisos necesarios.
+    403 Forbidden: Indica que el servidor entendió la solicitud, pero se niega a autorizarla.
+    404 Not Found: Indica que el recurso solicitado no se encontró en el servidor.
+    500 Internal Server Error: Indica que se produjo un error interno en el servidor mientras procesaba la solicitud.
+
+Estos son solo algunos ejemplos de los códigos de respuesta HTTP más comunes. Hay muchos otros códigos que se utilizan para diferentes situaciones y casos de uso específicos. Cada código tiene un significado específico y ayuda a comunicar el resultado de una solicitud entre el cliente y el servidor.
+
+
+//////////////////////////////
+//////////////////////////////
+
+PARA INICIAR DOCUMETACION CON FRAMEWORK
+
+Para ver Framework swager:
+
+http://127.0.0.1:8000/docs#/default/url_url_get
+
+
+Para ver Framework redoc:
+
+http://127.0.0.1:8000/redoc
+
+1h 30
+
+//////////////////////////////
+//////////////////////////////
+
+OPERACION GET:
+
+Con thunder client con get:
+http://127.0.0.1:8000
+
+"Hello World"
+
+http://127.0.0.1:8000/url
+
+{
+  "url_curso": "https://mouredev.com/python3"
+}
+
+//////////////////////////////
+//////////////////////////////
+
+Creo archivo users.py:
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+# Iniciar server:
+# uvicorn users:app --reload
+
+
+@app.get("/users")
+# Siempre que llamemos al servidor asimcronamente
+async def users():
+    return "Hello World users"
+
+PARA iniciar:
+uvicorn users:app --reload
+
+//////////////////////////////
+
+MIRANDO FALLO
+
+//////////////////////////////
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+# Iniciar server:
+# uvicorn users:app --reload
+
+
+@app.get("/users")
+# Siempre que llamemos al servidor asimcronamente
+async def users():
+
+    return [{"name":"Jose","surname":"Pascual","url_curso":"https://mouredev.com/python3"},
+    {"name":"Luis","surname":"Ivarra","url_curso":"https://Ivarra.com/python3"},
+    {"name":"Pedro","surname":"Suarez","url_curso":"https://Suarez.com/python3"}]
+
+http://127.0.0.1:8000/users/
+
+Result:
+[
+  {
+    "name": "Jose",
+    "surname": "Pascual",
+    "url_curso": "https://mouredev.com/python3"
+  },
+  {
+    "name": "Luis",
+    "surname": "Ivarra",
+    "url_curso": "https://Ivarra.com/python3"
+  },
+  {
+    "name": "Pedro",
+    "surname": "Suarez",
+    "url_curso": "https://Suarez.com/python3"
+  }
+]
+
+
+//////////////////////////////
+//////////////////////////////
+
+voy por 2h02:39 mirar fallo
+
+ARREGLADO: ARCHIVO: users.py
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+# Iniciar server:
+# uvicorn users:app --reload
+# uvicorn usersjson:app --reload
+
+
+# ENTIDAD USER:
+class User(BaseModel):
+    name: str
+    surname: str
+    url: str
+    age: int
+
+
+# Creamos lista usuarios:
+users_list = [
+    User(name="Jose", surname="Pascual",url= "https://mouredev.com/python3",age= 35),
+    User(name="Luis", surname="Ivarra",url= "https://Ivarra.com/python3",age= 25),
+    User(name="Pedro",surname= "Suarez",url= "https://Suarez.com/python3",age= 55),
+]
+# users = [User()]
+
+
+@app.get("/usersjson")
+# Siempre que llamemos al servidor asimcronamente
+async def usersjson():
+    return [
+        {
+            "name": "Jose",
+            "surname": "Pascual",
+            "url": "https://mouredev.com/python3",
+            "age": 35,
+        },
+        {
+            "name": "Luis",
+            "surname": "Ivarra",
+            "url": "https://Ivarra.com/python3",
+            "age": 25,
+        },
+        {
+            "name": "Pedro",
+            "surname": "Suarez",
+            "url": "https://Suarez.com/python3",
+            "age": 55,
+        },
+    ]
+
+
+@app.get("/users")
+# Siempre que llamemos al servidor asimcronamente
+async def users():
+    # return User(
+        # name="Jose", surname="Pascual", url="https://mouredev.com/python3", age="35"
+    # )
+    return users_list
+
+
+//////////////////////////////
+//////////////////////////////
+
+PATH Y QUERY:
+
+
+
+
+//////////////////////////////
+//////////////////////////////
+
+
+
+//////////////////////////////
+//////////////////////////////
+
+
+
+//////////////////////////////
