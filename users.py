@@ -98,17 +98,20 @@ async def user(user: User):
         return user
 
 
-@app.delete("/user/")
-async def user(id: int):
+@app.delete("/user/{id}")
+async def delete_user(id: int):
     found = False
 
     for index, saved_user in enumerate(users_list):
         if saved_user.id == id:
             del users_list[index]
             found = True
+            break
+
     if not found:
-        # Enviamos json
         return {"error": "No se ha eliminado el usuario"}
+
+    return {"message": "Usuario eliminado correctamente"}
 
 
 def search_user(id: int):
