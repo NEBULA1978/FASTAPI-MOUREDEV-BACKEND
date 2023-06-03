@@ -69,9 +69,17 @@ async def user(id: int):
 
 
 # QUERY
-@app.get("/userquery/")
+@app.get("/user/")
 async def user(id: int):
     return search_user(id)
+
+@app.post("/user/")
+async def user(user: User):
+    if type(search_user(user.id)) == User:
+        return {"error": "El ususario ya existe"}
+    else:
+        users_list.append(user)
+
 
 
 def search_user(id: int):
@@ -87,3 +95,6 @@ def search_user(id: int):
 # http://127.0.0.1:8000/userquery/?id=brais
 # POR ID:
 # http://127.0.0.1:8000/userquery/?id=1
+
+
+
