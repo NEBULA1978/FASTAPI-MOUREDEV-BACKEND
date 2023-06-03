@@ -612,16 +612,17 @@ def search_user(id: int):
 //////////////////////////////
 
 HTTP STATUS CODES:
-
+https://developer.mozilla.org/es/docs/Web/HTTP/Status
 Los códigos de estado de respuesta HTTP indican si se ha completado satisfactoriamente una solicitud HTTP específica. Las respuestas se agrupan en cinco clases:
-
+    REdireccion : 300,
+    REdireccion temporal: 307,
     Respuestas informativas (100–199),
     Respuestas satisfactorias (200–299),
     Redirecciones (300–399),
     Errores de los clientes (400–499),
     y errores de los servidores (500–599).
 
-
+Voy 3h 18min 35
 
 
 //////////////////////////////
