@@ -82,6 +82,7 @@ async def user(user: User):
         users_list.append(user)
         return user
 
+
 @app.put("/user/")
 async def user(user: User):
     found = False
@@ -95,6 +96,20 @@ async def user(user: User):
         return {"error": "No se ha actualizado el usuario"}
     else:
         return user
+
+
+@app.delete("/user/")
+async def user(id: int):
+    found = False
+
+    for index, saved_user in enumerate(users_list):
+        if saved_user.id == id:
+            del users_list[index]
+            found = True
+    if not found:
+        # Enviamos json
+        return {"error": "No se ha eliminado el usuario"}
+
 
 def search_user(id: int):
     users = filter(lambda user: user.id == id, users_list)
