@@ -73,14 +73,28 @@ async def user(id: int):
 async def user(id: int):
     return search_user(id)
 
+
 @app.post("/user/")
 async def user(user: User):
     if type(search_user(user.id)) == User:
         return {"error": "El ususario ya existe"}
     else:
         users_list.append(user)
+        return user
 
+@app.put("/user/")
+async def user(user: User):
+    found = False
 
+    for index, saved_user in enumerate(users_list):
+        if saved_user.id == user.id:
+            users_list[index] = user
+            found = True
+    if not found:
+        # Enviamos json
+        return {"error": "No se ha actualizado el usuario"}
+    else:
+        return user
 
 def search_user(id: int):
     users = filter(lambda user: user.id == id, users_list)
@@ -95,6 +109,3 @@ def search_user(id: int):
 # http://127.0.0.1:8000/userquery/?id=brais
 # POR ID:
 # http://127.0.0.1:8000/userquery/?id=1
-
-
-
